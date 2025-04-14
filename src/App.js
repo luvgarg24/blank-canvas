@@ -399,7 +399,7 @@ function App() {
     if (input.toLowerCase().startsWith("twitter ")) {
       const username = input.split(" ")[1];
       try {
-        const res = await fetch(`http://localhost:4000/api/top-tweets/${encodeURIComponent(username)}`);
+        const res = await fetch(`https://blank-canvas-1.onrender.com/api/top-tweets/${encodeURIComponent(username)}`);
         const data = await res.json();
         if (!res.ok || !data.tweets) throw new Error(data.error || 'No tweets found');
         const tweets = data.tweets;
@@ -424,7 +424,7 @@ function App() {
     // Web info query (via backend Gemini)
     try {
       const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
-      const res = await fetch('http://localhost:4000/api/gemini-query', {
+      const res = await fetch('https://blank-canvas-1.onrender.com/api/gemini-query', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: input })
