@@ -1,70 +1,64 @@
-# Getting Started with Create React App
+# Shopify Order Reporter
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A lightweight local dashboard for analysing Shopify orders by product, variant, and size. Enter your shop credentials, select a date range, and download CSV summaries for deeper analysis.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Pull Shopify orders directly with your Admin API access token.
+- View headline metrics such as orders, gross sales, and average order value.
+- Inspect product performance with drill-downs into variant sales, SKU totals, and configurable size summaries.
+- Export product and variant reports to CSV for spreadsheets or further reporting.
 
-### `npm start`
+## Getting started
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Install dependencies:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+   ```bash
+   npm install
+   ```
 
-### `npm test`
+2. Start the local API proxy (runs on port 4001 by default):
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ```bash
+   npm run api
+   ```
 
-### `npm run build`
+3. In a separate terminal, start the React application:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```bash
+   npm start
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. Open [http://localhost:3000](http://localhost:3000) and provide:
+   - **Shop domain** (e.g. `your-store.myshopify.com`)
+   - **Admin API access token** generated from a private/custom app with read access to Orders and Products
+   - Optional filters for date range, financial status, and fulfilment status
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Environment variables
 
-### `npm run eject`
+The proxy server only forwards requests to Shopify and does not store credentials. If you prefer to avoid typing your access token each time, you can create a local `.env` file at the project root:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+SHOPIFY_SHOP_DOMAIN=your-store.myshopify.com
+SHOPIFY_ACCESS_TOKEN=shpat_xxx
+SHOPIFY_API_VERSION=2024-01
+SHOPIFY_SIZE_OPTION_INDEX=1
+SHOPIFY_MAX_PAGES=15
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+When these variables are present they act as defaults for the UI (you can still override them per session). Increase `SHOPIFY_MAX_PAGES` if you need to download more than ~3,750 orders (250 orders × number of pages).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Production build
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Create an optimised production bundle with:
 
-## Learn More
+```bash
+npm run build
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The built assets will be emitted into the `build` directory.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Security notes
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Keep your Admin API access token private. Treat it like a password.
+- The local proxy is designed for development use on your machine. Do not deploy it without adding authentication and HTTPS.
